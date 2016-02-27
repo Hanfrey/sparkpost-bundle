@@ -1,0 +1,18 @@
+parameters:
+    hanfrey_sparkpost.api_client.class: SparkPost\SparkPost
+    hanfrey_sparkpost.http_adapter.class: Ivory\HttpAdapter\Guzzle6HttpAdapter
+    hanfrey_sparkpost.guzzle_client.class: GuzzleHttp\Client
+
+services:
+    hanfrey_sparkpost.http_adapter:
+      class: %hanfrey_sparkpost.http_adapter.class%
+      arguments: [@hanfrey_sparkpost.client_adapter]
+
+    hanfrey_sparkpost.client_adapter:
+      class: %hanfrey_sparkpost.guzzle_client.class%
+
+    hanfrey_sparkpost.api_client:
+        class: %hanfrey_sparkpost.api_client.class%
+        arguments:
+              - @hanfrey_sparkpost.http_adapter
+              - key: %hanfrey_sparkpost.api_token%
